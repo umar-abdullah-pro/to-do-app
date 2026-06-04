@@ -6,5 +6,36 @@ export const addItemToServer = async (task, date) => {
         },
         body: JSON.stringify({ task, date }),
     });
-    return response.json();
+    const item = await response.json();
+    return mapServerItemToClientItem(item);
+}
+
+export const getItemsFromServer = async () => {
+    const response = await fetch("http://localhost:3000/api/todo/");
+    const items = await response.json();
+    return items.map(mapServerItemToClientItem);
+}
+
+export const deleteItemFromServer = async (id) => {
+    await fetch(`http://localhost:3000/api/todo/${id}`, {
+        method: "DELETE",
+    });
+    const item = await response.json();
+    return item._id;
+}
+
+export const markCompleted = async (id, completed) => {
+    const response = await fetch(`http://localhost:3000/api/todo/${id}`, {
+        method: "PUT",
+    });
+    const item = await response.json();
+    return mapServerItemToClientItem(item);
+}
+
+export const mapServerItemToClientItem = (serverItem) => {
+    return {
+        name: serverItem.task,
+        dueDate: serverItem.date,
+        completed: serverItem.completed,
+    };
 }
