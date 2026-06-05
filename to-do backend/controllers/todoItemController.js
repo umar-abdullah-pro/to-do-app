@@ -14,9 +14,10 @@ exports.getTodoItems = async (req, res) => {
 }
 
 exports.deleteTodoItem = async (req, res) => {
-    const { id } = req.params;
-    await TodoItem.findByIdAndDelete(id);
-    res.status(204).json({ message: `Todo item ${id} deleted successfully` });
+    const id = req.params.id;
+    console.log('The id to delete is:', id);
+    const deletedItem = await TodoItem.findByIdAndDelete(id);
+    res.status(204).json({deletedItem});
 }
 
 exports.markCompleted = async (req, res) => {

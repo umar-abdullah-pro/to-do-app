@@ -20,8 +20,7 @@ export const deleteItemFromServer = async (id) => {
     await fetch(`http://localhost:3000/api/todo/${id}`, {
         method: "DELETE",
     });
-    const item = await response.json();
-    return item._id;
+    return id;
 }
 
 export const markCompleted = async (id, completed) => {
@@ -34,6 +33,7 @@ export const markCompleted = async (id, completed) => {
 
 export const mapServerItemToClientItem = (serverItem) => {
     return {
+        id: serverItem._id,
         name: serverItem.task,
         dueDate: serverItem.date,
         completed: serverItem.completed,
